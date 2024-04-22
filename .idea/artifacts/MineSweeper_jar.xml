@@ -1,9 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="jar" name="MineSweeper:jar">
-    <output-path>$PROJECT_DIR$/out/artifacts/MineSweeper_jar</output-path>
-    <root id="archive" name="MineSweeper.jar">
-      <element id="module-output" name="MineSweeper" />
-      <element id="file-copy" path="$PROJECT_DIR$/src/resources/Seven_Segment.ttf" />
-    </root>
-  </artifact>
-</component>
