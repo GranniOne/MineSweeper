@@ -1,8 +1,8 @@
 
 import javax.imageio.ImageIO;
+import javax.sound.sampled.*;
 import javax.swing.*;
 import java.awt.*;
-
 import java.awt.event.*;
 import java.io.IOException;
 import java.io.InputStream;
@@ -10,8 +10,8 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 
 
+public class Mine_Sweeper_GUI extends JPanel implements MouseListener, ActionListener, MouseWheelListener, LineListener {
 
-public class Mine_Sweeper_GUI extends JPanel implements MouseListener, ActionListener, MouseWheelListener {
     Board Minesweeper;
     int x_cord = 0;
     int y_cord = 0;
@@ -49,6 +49,9 @@ public class Mine_Sweeper_GUI extends JPanel implements MouseListener, ActionLis
         mediumButton.addActionListener(this);
         sværButton.addActionListener(this);
         TimeRepaint();
+    }
+
+    private void test() throws UnsupportedAudioFileException, IOException {
 
     }
     // initialiser timer og repaint metode på timer, tager hensyn til skærmstørrelse
@@ -63,6 +66,7 @@ public class Mine_Sweeper_GUI extends JPanel implements MouseListener, ActionLis
         };
         time = new Timer(50, taskPerformer);
         time.start();
+
     }
 
     //paint component metode, tegner grafikken på panelet
@@ -255,5 +259,10 @@ public class Mine_Sweeper_GUI extends JPanel implements MouseListener, ActionLis
         else if(e.getWheelRotation() > 0 && !(Tile_Size <=10)){
             Tile_Size -= 1;
         }
+    }
+
+    @Override
+    public void update(LineEvent event) {
+
     }
 }
