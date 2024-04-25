@@ -37,14 +37,9 @@ public class Board {
         // put tallene ind på boardet, itere igennem hele brættet og kald på countBombs metoden:
         for (int i = 0; i < size[0];i++){
             for(int j = 0; j<size[1];j++){
-                try{
-                    if (newBoard[i][j][0] != ("B")){
-                        // sæt bræt værdi til antal bomber fundet:
-                        newBoard[i][j][0] = String.valueOf(countBombs(new int[]{i,j},newBoard));
-                    }
-                }
-                catch (Exception e){
-                    // hvis der er en fejl så er det fordi vi er ude for brættet og vi ignorerer det.
+                if (newBoard[i][j][0] != ("B")){
+                    // sæt bræt værdi til antal bomber fundet:
+                    newBoard[i][j][0] = String.valueOf(countBombs(new int[]{i,j},newBoard));
                 }
             }
         }
