@@ -17,9 +17,7 @@ public class Board {
     // metode der generer et nyt board:
     private String[][][]genNewBoard(int[] size, int bombCount, int[] startCords){
         String[][][] newBoard = new String[size[0]][size[1]][2];
-        int x1 = startCords[0];
-        int y1 = startCords[1];
-
+        
         // put bomber på tilfældige pladser:
         for (int i = 0; i < bombCount; i++){
             // vælg tilfælgig plads
