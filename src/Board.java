@@ -34,7 +34,7 @@ public class Board {
             }
         }
 
-        // put tallene ind på boardet, itere igennem hele brættet og kald på countBombs metoden:
+        // put tallene ind på boardet, iterere igennem hele brættet og kald på countBombs metoden:
         for (int i = 0; i < size[0];i++){
             for(int j = 0; j<size[1];j++){
                 if (newBoard[i][j][0] != ("B")){
@@ -114,18 +114,18 @@ public class Board {
                 try {
                     // kigger i et "plus tegn" område om koordinatet, hvis brikkerne rundt om er 0 og ikke trykket på endnu
                     // reveal dem og rekursivt kald på reveal area
-                    if(((i % 2 == 0 && j % 2 != 0) || (i % 2 != 0 && j % 2 == 0)) || (i/j == -1 || i/j == 1)){
-                        if(!(this.Board[cords[0] + i][cords[1] + j][1] =="p")){
+                    if(i != cords[0] || j != cords[1]){
+                        if(!(this.Board[cords[0] + i][cords[1] + j][1] == "p")){
                             this.Board[cords[0]+i][cords[1]+j][1] = "p";
                             if (this.Board[cords[0] + i][cords[1] + j][0].equals("0")){
                                 revealArea(new int[]{cords[0] + i, cords[1] + j});
                             }
-
                         }
                     }
                 }
                 catch (Exception e){
                     // hvis der er en fejl så er det fordi vi er ude for brættet og vi ignorerer det.
+
                 }
             }
         }
