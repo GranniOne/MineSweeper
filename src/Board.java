@@ -120,7 +120,6 @@ public class Board {
                             if (this.Board[cords[0] + i][cords[1] + j][0].equals("0")){
                                 revealArea(new int[]{cords[0] + i, cords[1] + j});
                             }
-
                         }
                     }
                 }
