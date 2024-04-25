@@ -12,7 +12,6 @@ import java.time.LocalDateTime;
 
 
 public class Mine_Sweeper_GUI extends JPanel implements MouseListener, ActionListener, MouseWheelListener {
-
     Board Minesweeper;
     int x_cord = 0;
     int y_cord = 0;
@@ -56,7 +55,7 @@ public class Mine_Sweeper_GUI extends JPanel implements MouseListener, ActionLis
     private void TimeRepaint(){
         ActionListener taskPerformer = new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                Dimension screensize = Main.frame.getSize();
+                Dimension screensize = Mine_Sweeper_GUI.this.getSize();
                 x_cord = (int) (screensize.getWidth() - (Tile_Size*BoardSize[0])) / 2;
                 y_cord = (int) (screensize.getHeight() - (Tile_Size*BoardSize[1])) / 2;
                 repaint();
