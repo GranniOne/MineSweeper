@@ -112,7 +112,7 @@ public class Board {
         for (int i = -1; i<2;i++){
             for (int j  = -1; j<2;j++){
                 try {
-                    // kigger i et "plus tegn" område om koordinatet, hvis brikkerne rundt om er 0 og ikke trykket på endnu
+                    // kigger rundt om koordinatet, hvis brikkerne rundt om er 0 og ikke trykket på endnu
                     // reveal dem og rekursivt kald på reveal area
                     if(i != cords[0] || j != cords[1]){
                         if(!(this.Board[cords[0] + i][cords[1] + j][1] == "p")){
