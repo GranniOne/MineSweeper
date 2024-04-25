@@ -20,7 +20,6 @@ public class Mine_Sweeper_GUI extends JPanel implements MouseListener, ActionLis
     int[] BoardSize = {10,10};
     int Max_Bombs = 10;
     LocalDateTime date;
-
     Timer time;
 
     // colorlist til tal på brikker
