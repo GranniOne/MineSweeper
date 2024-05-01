@@ -196,13 +196,15 @@ public class Mine_Sweeper_GUI extends JPanel implements MouseListener, ActionLis
     }
     @Override
     public void mousePressed(MouseEvent e) {
-
-        // udregn koordinater tilsvarende til minesweeper boardet:
-        int[] cords = {(e.getX()- x_offset)/Tile_Size, (e.getY()- y_offset)/Tile_Size};
-
+        // tjek om der er trykket inde for spilpladen
         if (e.getX()- x_offset <=0 || e.getY()- y_offset <=0 || e.getX()- x_offset >= Tile_Size*BoardSize[0] || e.getY()- y_offset >= Tile_Size*BoardSize[1]){
             return;
         }
+        
+        // udregn koordinater tilsvarende til minesweeper boardet:
+        int[] cords = {(e.getX()- x_offset)/Tile_Size, (e.getY()- y_offset)/Tile_Size};
+
+        
             // Lav et nyt board første gang der trykkes på GUI:
         if(Minesweeper == null){
             initializeBoard(cords);
