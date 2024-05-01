@@ -1,6 +1,5 @@
 
 import javax.imageio.ImageIO;
-import javax.sound.sampled.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -13,8 +12,8 @@ import java.time.LocalDateTime;
 public class Mine_Sweeper_GUI extends JPanel implements MouseListener, ActionListener, MouseWheelListener {
 
     Board Minesweeper;
-    int x_cord = 0;
-    int y_cord = 0;
+    int x_offset = 0;
+    int y_offset = 0;
     int Tile_Size = 30;
     int[] BoardSize = {10,10};
     int Max_Bombs = 10;
@@ -57,8 +56,8 @@ public class Mine_Sweeper_GUI extends JPanel implements MouseListener, ActionLis
         ActionListener taskPerformer = new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 Dimension screensize = Mine_Sweeper_GUI.this.getSize();
-                x_cord = (int) (screensize.getWidth() - (Tile_Size*BoardSize[0])) / 2;
-                y_cord = (int) (screensize.getHeight() - (Tile_Size*BoardSize[1])) / 2;
+                x_offset = (int) (screensize.getWidth() - (Tile_Size*BoardSize[0])) / 2;
+                y_offset = (int) (screensize.getHeight() - (Tile_Size*BoardSize[1])) / 2;
                 repaint();
             }
         };
@@ -77,8 +76,8 @@ public class Mine_Sweeper_GUI extends JPanel implements MouseListener, ActionLis
         //oprettet nested loop til tegning af felter
         for(int i = 0; i < BoardSize[0]; i++){
             for(int j = 0; j < BoardSize[1]; j++){
-                int x_koordinat = i*Tile_Size+x_cord;
-                int y_koordinat = j*Tile_Size+y_cord;
+                int x_koordinat = i*Tile_Size+ x_offset;
+                int y_koordinat = j*Tile_Size+ y_offset;
 
                 // kode ansvarlig for GUI når der ikke er lavet et minesweeper spil
                 if(Minesweeper == null){
@@ -133,13 +132,12 @@ public class Mine_Sweeper_GUI extends JPanel implements MouseListener, ActionLis
             color++;
 
         }
-
         g.setFont(g.getFont().deriveFont(Font.BOLD,50));
         if(Minesweeper != null){
-            g.drawString("Flag: "+Minesweeper.maxFlags,500, 100);
-            g.drawString("Tid: " + Duration.between(date,LocalDateTime.now()).getSeconds(), 500, 140);
+            g.drawString("Flag: "+Minesweeper.maxFlags,Mine_Sweeper_GUI.this.getWidth()/2, 100);
+            g.drawString("Tid: " + Duration.between(date,LocalDateTime.now()).getSeconds(), Mine_Sweeper_GUI.this.getWidth()/2, 140);
         }else{
-            g.drawString("Flag: "+Max_Bombs, 500, 100);
+            g.drawString("Flag: "+Max_Bombs, Mine_Sweeper_GUI.this.getWidth()/2, 100);
         }
     }
     // indlæs font metode
@@ -161,7 +159,7 @@ public class Mine_Sweeper_GUI extends JPanel implements MouseListener, ActionLis
         try {
             InputStream inputStream = Main.class.getResourceAsStream(path);
             Image image = ImageIO.read(inputStream);
-            g.drawImage(image, Tile_Size*i+x_cord, Tile_Size*j+y_cord, Tile_Size, Tile_Size, null);
+            g.drawImage(image, Tile_Size*i+ x_offset, Tile_Size*j+ y_offset, Tile_Size, Tile_Size, null);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -200,9 +198,9 @@ public class Mine_Sweeper_GUI extends JPanel implements MouseListener, ActionLis
     public void mousePressed(MouseEvent e) {
 
         // udregn koordinater tilsvarende til minesweeper boardet:
-        int[] cords = {(e.getX()-x_cord)/Tile_Size, (e.getY()-y_cord)/Tile_Size};
+        int[] cords = {(e.getX()- x_offset)/Tile_Size, (e.getY()- y_offset)/Tile_Size};
 
-        if (e.getX()-x_cord <=0 || e.getY()-y_cord <=0 || e.getX()-x_cord >= Tile_Size*BoardSize[0] || e.getY()-y_cord >= Tile_Size*BoardSize[1]){
+        if (e.getX()- x_offset <=0 || e.getY()- y_offset <=0 || e.getX()- x_offset >= Tile_Size*BoardSize[0] || e.getY()- y_offset >= Tile_Size*BoardSize[1]){
             return;
         }
             // Lav et nyt board første gang der trykkes på GUI:
@@ -226,7 +224,7 @@ public class Mine_Sweeper_GUI extends JPanel implements MouseListener, ActionLis
                 Minesweeper = null;
             }
             // tjek om der er blevet trykket på en bombe, reset spil hvis der er
-            if (Minesweeper.lossCheck(cords)) {
+            if(Minesweeper.lossCheck(cords)) {
                 time.stop();
                 JOptionPane.showMessageDialog(null, "Du har tabt og din tid er "+Duration.between(date,LocalDateTime.now()).getSeconds()+ " sekunder");
                 time.start();
