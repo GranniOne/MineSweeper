@@ -132,12 +132,13 @@ public class Mine_Sweeper_GUI extends JPanel implements MouseListener, ActionLis
             color++;
 
         }
+        FontMetrics metrics = g.getFontMetrics(g.getFont());
         g.setFont(g.getFont().deriveFont(Font.BOLD,50));
         if(Minesweeper != null){
-            g.drawString("Flag: "+Minesweeper.maxFlags,Mine_Sweeper_GUI.this.getWidth()/2, 100);
-            g.drawString("Tid: " + Duration.between(date,LocalDateTime.now()).getSeconds(), Mine_Sweeper_GUI.this.getWidth()/2, 140);
+            g.drawString("Flag: "+Minesweeper.maxFlags,Mine_Sweeper_GUI.this.getWidth()/2-metrics.stringWidth("Flag: "+ Minesweeper.maxFlags), 100);
+            g.drawString("Tid: " + Duration.between(date,LocalDateTime.now()).getSeconds(), Mine_Sweeper_GUI.this.getWidth()/2- metrics.stringWidth("Tid:"+Duration.between(date,LocalDateTime.now()).getSeconds()), 140);
         }else{
-            g.drawString("Flag: "+Max_Bombs, Mine_Sweeper_GUI.this.getWidth()/2, 100);
+            g.drawString("Flag: "+Max_Bombs, Mine_Sweeper_GUI.this.getWidth()/2-metrics.stringWidth("Flag: "+Max_Bombs), 100);
         }
     }
     // indlæs font metode
@@ -196,13 +197,16 @@ public class Mine_Sweeper_GUI extends JPanel implements MouseListener, ActionLis
     }
     @Override
     public void mousePressed(MouseEvent e) {
-
-        // udregn koordinater tilsvarende til minesweeper boardet:
-        int[] cords = {(e.getX()- x_offset)/Tile_Size, (e.getY()- y_offset)/Tile_Size};
-
+        // tjek om der er trykket inde for spilpladen
         if (e.getX()- x_offset <=0 || e.getY()- y_offset <=0 || e.getX()- x_offset >= Tile_Size*BoardSize[0] || e.getY()- y_offset >= Tile_Size*BoardSize[1]){
             return;
         }
+        // udregn koordinater tilsvarende til minesweeper boardet:
+        int[] cords = {(e.getX()- x_offset)/Tile_Size, (e.getY()- y_offset)/Tile_Size};
+
+
+
+
             // Lav et nyt board første gang der trykkes på GUI:
         if(Minesweeper == null){
             initializeBoard(cords);
