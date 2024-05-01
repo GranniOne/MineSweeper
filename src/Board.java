@@ -17,9 +17,7 @@ public class Board {
     // metode der generer et nyt board:
     private String[][][]genNewBoard(int[] size, int bombCount, int[] startCords){
         String[][][] newBoard = new String[size[0]][size[1]][2];
-        int x1 = startCords[0];
-        int y1 = startCords[1];
-
+        
         // put bomber på tilfældige pladser:
         for (int i = 0; i < bombCount; i++){
             // vælg tilfælgig plads
@@ -36,17 +34,12 @@ public class Board {
             }
         }
 
-        // put tallene ind på boardet, itere igennem hele brættet og kald på countBombs metoden:
+        // put tallene ind på boardet, iterere igennem hele brættet og kald på countBombs metoden:
         for (int i = 0; i < size[0];i++){
             for(int j = 0; j<size[1];j++){
-                try{
-                    if (newBoard[i][j][0] != ("B")){
-                        // sæt bræt værdi til antal bomber fundet:
-                        newBoard[i][j][0] = String.valueOf(countBombs(new int[]{i,j},newBoard));
-                    }
-                }
-                catch (Exception e){
-                    // hvis der er en fejl så er det fordi vi er ude for brættet og vi ignorerer det.
+                if (newBoard[i][j][0] != ("B")){
+                    // sæt bræt værdi til antal bomber fundet:
+                    newBoard[i][j][0] = String.valueOf(countBombs(new int[]{i,j},newBoard));
                 }
             }
         }
@@ -119,20 +112,20 @@ public class Board {
         for (int i = -1; i<2;i++){
             for (int j  = -1; j<2;j++){
                 try {
-                    // kigger i et "plus tegn" område om koordinatet, hvis brikkerne rundt om er 0 og ikke trykket på endnu
+                    // kigger rundt om koordinatet, hvis brikkerne rundt om er 0 og ikke trykket på endnu
                     // reveal dem og rekursivt kald på reveal area
-                    if(((i % 2 == 0 && j % 2 != 0) || (i % 2 != 0 && j % 2 == 0)) || (i/j == -1 || i/j == 1)){
-                        if(!(this.Board[cords[0] + i][cords[1] + j][1] =="p")){
+                    if(i != cords[0] || j != cords[1]){
+                        if(!(this.Board[cords[0] + i][cords[1] + j][1] == "p")){
                             this.Board[cords[0]+i][cords[1]+j][1] = "p";
                             if (this.Board[cords[0] + i][cords[1] + j][0].equals("0")){
                                 revealArea(new int[]{cords[0] + i, cords[1] + j});
                             }
-
                         }
                     }
                 }
                 catch (Exception e){
                     // hvis der er en fejl så er det fordi vi er ude for brættet og vi ignorerer det.
+
                 }
             }
         }

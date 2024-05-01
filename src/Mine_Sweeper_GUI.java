@@ -79,6 +79,7 @@ public class Mine_Sweeper_GUI extends JPanel implements MouseListener, ActionLis
             for(int j = 0; j < BoardSize[1]; j++){
                 int x_koordinat = i*Tile_Size+x_cord;
                 int y_koordinat = j*Tile_Size+y_cord;
+
                 // kode ansvarlig for GUI når der ikke er lavet et minesweeper spil
                 if(Minesweeper == null){
                     if(color %2 == 0){
@@ -92,6 +93,7 @@ public class Mine_Sweeper_GUI extends JPanel implements MouseListener, ActionLis
 
                 // Tegn brættet, vælger farver med hensyn til om brikken er trykket på eller ej:
                 if (Minesweeper != null){
+                    //Minesweeper.Board[i][j][1] = "p";
                     // brikken er trykket:
                     if ((Minesweeper.Board[i][j][1]) == "p"){
                         if(color %2 == 0){
