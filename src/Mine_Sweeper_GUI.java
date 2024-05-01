@@ -10,7 +10,7 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 
 
-public class Mine_Sweeper_GUI extends JPanel implements MouseListener, ActionListener, MouseWheelListener, LineListener {
+public class Mine_Sweeper_GUI extends JPanel implements MouseListener, ActionListener, MouseWheelListener {
 
     Board Minesweeper;
     int x_cord = 0;
@@ -51,9 +51,7 @@ public class Mine_Sweeper_GUI extends JPanel implements MouseListener, ActionLis
         TimeRepaint();
     }
 
-    private void test() throws UnsupportedAudioFileException, IOException {
 
-    }
     // initialiser timer og repaint metode på timer, tager hensyn til skærmstørrelse
     private void TimeRepaint(){
         ActionListener taskPerformer = new ActionListener() {
@@ -203,7 +201,6 @@ public class Mine_Sweeper_GUI extends JPanel implements MouseListener, ActionLis
         int[] cords = {(e.getX()-x_cord)/Tile_Size, (e.getY()-y_cord)/Tile_Size};
 
         if (e.getX()-x_cord <=0 || e.getY()-y_cord <=0 || e.getX()-x_cord >= Tile_Size*BoardSize[0] || e.getY()-y_cord >= Tile_Size*BoardSize[1]){
-            System.out.println("Udenfor");
             return;
         }
             // Lav et nyt board første gang der trykkes på GUI:
@@ -259,10 +256,5 @@ public class Mine_Sweeper_GUI extends JPanel implements MouseListener, ActionLis
         else if(e.getWheelRotation() > 0 && !(Tile_Size <=10)){
             Tile_Size -= 1;
         }
-    }
-
-    @Override
-    public void update(LineEvent event) {
-
     }
 }
