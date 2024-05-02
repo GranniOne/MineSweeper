@@ -1,4 +1,5 @@
 import java.util.Arrays;
+import java.util.Random;
 
 
 public class Board {
@@ -17,12 +18,13 @@ public class Board {
     // metode der generer et nyt board:
     private String[][][]genNewBoard(int[] size, int bombCount, int[] startCords){
         String[][][] newBoard = new String[size[0]][size[1]][2];
+        Random rand = new Random();
         
         // put bomber på tilfældige pladser:
         for (int i = 0; i < bombCount; i++){
             // vælg tilfælgig plads
-            int x = (int) (Math.random() * size[0]);
-            int y = (int) (Math.random() * size[1]);
+            int x = rand.nextInt(size[0]);
+            int y = rand.nextInt(size[1]);
 
             // tjek om det tilfældige koordinat allerede har en bombe eller er start koordinatet:
             if (isStartCoordinate(startCords,x,y) || newBoard[x][y][0] == "B"){
