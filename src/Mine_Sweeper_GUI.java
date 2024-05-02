@@ -206,9 +206,7 @@ public class Mine_Sweeper_GUI extends JPanel implements MouseListener, ActionLis
         // udregn koordinater tilsvarende til minesweeper boardet:
         int[] cords = {(e.getX()- x_offset)/Tile_Size, (e.getY()- y_offset)/Tile_Size};
 
-
-
-            // Lav et nyt board første gang der trykkes på GUI:
+        // Lav et nyt board første gang der trykkes på GUI:
         if(Minesweeper == null){
             initializeBoard(cords);
             time.start();
