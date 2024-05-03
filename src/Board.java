@@ -101,7 +101,6 @@ public class Board {
         if (value == null && this.maxFlags >0){
             this.Board[cords[0]][cords[1]][1] = "f";
             this.maxFlags --;
-
         }
     }
 
@@ -121,7 +120,6 @@ public class Board {
                             revealArea(new int[]{cords[0] + i, cords[1] + j});
                         }
                     }
-
                 }
                 catch (Exception e){
                     // hvis der er en fejl så er det fordi vi er ude for brættet og vi ignorerer det.
@@ -133,7 +131,6 @@ public class Board {
 
     // tjekker om alle bomber har flag
     public boolean winCheck(){
-
         for(int i = 0; i < this.Board.length;i++){
             for(int j =0; j < this.Board.length;j++){
                 if(!(Board[i][j][1] == "f") && Board[i][j][0].equals("B") || Board[i][j][1] != "p" && !Board[i][j][0].equals("B")) {
@@ -143,20 +140,16 @@ public class Board {
             }
         }
         return true;
-
     }
+    
     // tjekker om en bombe er trykket på
     public boolean lossCheck(int[] cords){
         return this.Board[cords[0]][cords[1]][0] == "B" && !this.Board[cords[0]][cords[1]][1].equals( "f");
     }
 
-
     public void print(){
         for(int i =0; i< this.Board[0].length;i++){
             System.out.println(Arrays.deepToString(this.Board[i]));
         }
-        //System.out.println(Arrays.deepToString(this.Board));
     }
-
-
 }
