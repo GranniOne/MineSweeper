@@ -1,5 +1,4 @@
 import java.util.Arrays;
-import java.util.Random;
 
 
 public class Board {
@@ -14,17 +13,15 @@ public class Board {
 
     }
 
-
     // metode der generer et nyt board:
     private String[][][]genNewBoard(int[] size, int bombCount, int[] startCords){
         String[][][] newBoard = new String[size[0]][size[1]][2];
-        Random rand = new Random();
         
         // put bomber på tilfældige pladser:
         for (int i = 0; i < bombCount; i++){
             // vælg tilfælgig plads
-            int x = rand.nextInt(size[0]);
-            int y = rand.nextInt(size[1]);
+            int x = (int) (Math.random() * size[0]);
+            int y = (int) (Math.random() * size[1]);
 
             // tjek om det tilfældige koordinat allerede har en bombe eller er start koordinatet:
             if (isStartCoordinate(startCords,x,y) || newBoard[x][y][0] == "B"){
@@ -116,14 +113,15 @@ public class Board {
                 try {
                     // kigger rundt om koordinatet, hvis brikkerne rundt om er 0 og ikke trykket på endnu
                     // reveal dem og rekursivt kald på reveal area
-                    if(i != cords[0] || j != cords[1]){
-                        if(!(this.Board[cords[0] + i][cords[1] + j][1] == "p")){
-                            this.Board[cords[0]+i][cords[1]+j][1] = "p";
-                            if (this.Board[cords[0] + i][cords[1] + j][0].equals("0")){
-                                revealArea(new int[]{cords[0] + i, cords[1] + j});
-                            }
+                    if(this.Board[cords[0] + i][cords[1] + j][1] != "p"){
+                        //øger maxflag værdien hvis der er et flag på feltet.
+                        maxFlags += this.Board[cords[0] + i][cords[1] + j][1] == "f" ? 1 : 0;
+                        this.Board[cords[0]+i][cords[1]+j][1] = "p";
+                        if (this.Board[cords[0] + i][cords[1] + j][0].equals("0")){
+                            revealArea(new int[]{cords[0] + i, cords[1] + j});
                         }
                     }
+
                 }
                 catch (Exception e){
                     // hvis der er en fejl så er det fordi vi er ude for brættet og vi ignorerer det.
@@ -135,6 +133,7 @@ public class Board {
 
     // tjekker om alle bomber har flag
     public boolean winCheck(){
+
         for(int i = 0; i < this.Board.length;i++){
             for(int j =0; j < this.Board.length;j++){
                 if(!(Board[i][j][1] == "f") && Board[i][j][0].equals("B") || Board[i][j][1] != "p" && !Board[i][j][0].equals("B")) {
@@ -144,6 +143,7 @@ public class Board {
             }
         }
         return true;
+
     }
     // tjekker om en bombe er trykket på
     public boolean lossCheck(int[] cords){

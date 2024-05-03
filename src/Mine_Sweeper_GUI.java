@@ -1,5 +1,6 @@
 
 import javax.imageio.ImageIO;
+import javax.sound.sampled.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -9,7 +10,7 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 
 
-public class Mine_Sweeper_GUI extends JPanel implements MouseListener, ActionListener, MouseWheelListener {
+public class Mine_Sweeper_GUI extends JPanel implements MouseListener, ActionListener, MouseWheelListener, LineListener {
 
     Board Minesweeper;
     int x_offset = 0;
@@ -132,13 +133,14 @@ public class Mine_Sweeper_GUI extends JPanel implements MouseListener, ActionLis
             color++;
 
         }
+
         g.setFont(g.getFont().deriveFont(Font.BOLD,50));
         if(Minesweeper != null){
-            g.drawString("Flag: "+Minesweeper.maxFlags,Mine_Sweeper_GUI.this.getWidth()/2-g.getFontMetrics().stringWidth("Flag: "+ Minesweeper.maxFlags), 100);
-            g.drawString("Tid: " + Duration.between(date,LocalDateTime.now()).getSeconds(), Mine_Sweeper_GUI.this.getWidth()/2- g.getFontMetrics().stringWidth("Tid:"+Duration.between(date,LocalDateTime.now()).getSeconds()), 140);
+            g.drawString("Flag: "+Minesweeper.maxFlags,500, 100);
+            g.drawString("Tid: " + Duration.between(date,LocalDateTime.now()).getSeconds(), 500, 140);
         }else{
-            g.drawString("Flag: "+Max_Bombs, Mine_Sweeper_GUI.this.getWidth()/2-g.getFontMetrics().stringWidth("Flag: "+Max_Bombs), 100);
-            }
+            g.drawString("Flag: "+Max_Bombs, 500, 100);
+        }
     }
     // indlæs font metode
     private void loadFont(Graphics g,int Size){
@@ -196,17 +198,17 @@ public class Mine_Sweeper_GUI extends JPanel implements MouseListener, ActionLis
     }
     @Override
     public void mousePressed(MouseEvent e) {
-        // tjek om der er trykket inde for spilpladen
+
         if (e.getX()- x_offset <=0 ||
-            e.getY()- y_offset <=0 ||
-            e.getX()- x_offset >= Tile_Size*BoardSize[0] ||
-            e.getY()- y_offset >= Tile_Size*BoardSize[1]){
+                e.getY()- y_offset <=0 ||
+                e.getX()- x_offset >= Tile_Size*BoardSize[0] ||
+                e.getY()- y_offset >= Tile_Size*BoardSize[1]){
             return;
         }
         // udregn koordinater tilsvarende til minesweeper boardet:
         int[] cords = {(e.getX()- x_offset)/Tile_Size, (e.getY()- y_offset)/Tile_Size};
 
-        // Lav et nyt board første gang der trykkes på GUI:
+            // Lav et nyt board første gang der trykkes på GUI:
         if(Minesweeper == null){
             initializeBoard(cords);
             time.start();
@@ -219,18 +221,20 @@ public class Mine_Sweeper_GUI extends JPanel implements MouseListener, ActionLis
             else if(e.getButton() == MouseEvent.BUTTON3){
                 Minesweeper.setFlag(cords);
             }
-
-            if( Minesweeper.winCheck() || Minesweeper.lossCheck(cords)){
-                String won = Minesweeper.winCheck() ? "Du har vundet" : "Du har tabt";
+            // tjek om der er flag på alle bomber
+            if(Minesweeper.winCheck()){
                 time.stop();
-                JOptionPane.showMessageDialog(null,
-                        won+" og din tid er " +
-                                Duration.between(date,LocalDateTime.now()).getSeconds() +" sekunder");
+                JOptionPane.showMessageDialog(null, "Du har vundet og din tid er " +Duration.between(date,LocalDateTime.now()).getSeconds() +" sekunder");
                 time.start();
                 Minesweeper = null;
             }
-
-
+            // tjek om der er blevet trykket på en bombe, reset spil hvis der er
+            if (Minesweeper.lossCheck(cords)) {
+                time.stop();
+                JOptionPane.showMessageDialog(null, "Du har tabt og din tid er "+Duration.between(date,LocalDateTime.now()).getSeconds()+ " sekunder");
+                time.start();
+                Minesweeper = null;
+            }
         }
     }
 
@@ -257,5 +261,10 @@ public class Mine_Sweeper_GUI extends JPanel implements MouseListener, ActionLis
         else if(e.getWheelRotation() > 0 && !(Tile_Size <=10)){
             Tile_Size -= 1;
         }
+    }
+
+    @Override
+    public void update(LineEvent event) {
+
     }
 }
